@@ -47,7 +47,7 @@ class PayloadAlert(object):
 class Payload(object):
     def __init__(self, alert=None, badge=None, sound=None,
                  content_available=False, mutable_content=False,
-                 category=None, url_args=None, custom=None, thread_id=None):
+                 category=None, url_args=None, custom=None, thread_id=None, aps_extra=None):
         self.alert = alert
         self.badge = badge
         self.sound = sound
@@ -57,6 +57,7 @@ class Payload(object):
         self.custom = custom
         self.mutable_content = mutable_content
         self.thread_id = thread_id
+        self.aps_extra = aps_extra
 
     def dict(self):
         result = {
@@ -83,5 +84,7 @@ class Payload(object):
             result['aps']['url-args'] = self.url_args
         if self.custom is not None:
             result.update(self.custom)
+        if isinstance(self.aps_extra, dict):
+            result['aps'].update(self.aps_extra)
 
         return result
